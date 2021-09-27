@@ -1,7 +1,8 @@
+
 let object = [
     {id: 'l0', value: 'Построить дом'},
     { id: 'l1', value: 'Посадить дерево'},
-    { id: 'l2', value: 'Вырастьть сына'}
+    { id: 'l2', value: 'Вырастить сына'}
 ]
 
 $(window).ready(createLi(object))
@@ -23,14 +24,16 @@ $('.btn').bind('click', function () {
         $('*li').remove()
         createLi(object)
         count++
+        // let data = String(new Date().toLocaleString().slice(0,-3).split(','))
+        // console.log(data.split(','));
+
     }
 });
 
 
 function createLi(object) {
     for (data of object) {
-        let nId =  data.id
-        let elem = $('<li id='+nId+'>' + data.value + '<button>Удалить</button></li>')
+        let elem = $('<li id='+data.id+'><span>' + data.value +'</span><button></button></li>')
         $('.list').append(elem)
     }
 
@@ -38,7 +41,6 @@ function createLi(object) {
 
 $('ul').bind('click', function (e) {
     let elem = e.originalEvent.path[1]
-    console.log(elem);
     del(elem.id)
 
 });
