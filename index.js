@@ -1,54 +1,62 @@
-
 let object = [
-    { id: 0, value: 'Построить дом' },
-    { id: 1, value: 'Посадить дерево' },
-    { id: 2, value: 'Вырастьть сына' }
+    {id: 'l0', value: 'Построить дом'},
+    { id: 'l1', value: 'Посадить дерево'},
+    { id: 'l2', value: 'Вырастьть сына'}
 ]
+
 $(window).ready(createLi(object))
-let count = 3
+
+let count = 0
+
+if (object == '') {
+    count = 0
+}
+else{
+    count = parseInt(object[object.length - 1].id.slice(1)) + 1
+}
+
 $('.btn').bind('click', function () {
     if (inputValue() !== '') {
-        object.push({ id: count, value: '' + inputValue() })
+        object.push({ id:'l' + count, value:inputValue() })
         console.log(object);
         $('.input').val('')
-        count++
         $('*li').remove()
         createLi(object)
-
+        count++
     }
 });
 
+
 function createLi(object) {
     for (data of object) {
-        $('.list').append('<li id:' + data.id + '> ' + data.value + '<button>Удалить</button></li>')
+        let nId =  data.id
+        let elem = $('<li id='+nId+'>' + data.value + '<button>Удалить</button></li>')
+        $('.list').append(elem)
     }
 
 }
 
-function del(object, id) {
-    for (let i = 0; i < object.lenght; i++) {
-        console.log(object[i]);
-        if (object[i].id == id) {
-            delete object[i]
-            console.log('work');
-            break
+$('ul').bind('click', function (e) {
+    let elem = e.originalEvent.path[1]
+    console.log(elem);
+    del(elem.id)
 
+});
+
+function del(num) {
+    for (let i = 0; i < object.length; i++) {
+        if (object[i].id === num) {
+            object.splice(i, 1)
+            $('*li').remove()
+            createLi(object)
         }
     }
 }
-
-function Car(make, model, year) {
-    this.make = make;
-    this.model = model;
-    this.year = year;
-}
-
 
 
 function inputValue() {
     return ($('.input').val());
 }
-
 
 
 
