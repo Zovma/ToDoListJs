@@ -1,11 +1,10 @@
-
 let object = [
     {id: 'l0', value: 'Построить дом'},
     { id: 'l1', value: 'Посадить дерево'},
     { id: 'l2', value: 'Вырастить сына'}
 ]
 
-$(window).ready(createLi(object))
+// $(window).ready(createLi(object))
 
 let count = 0
 
@@ -16,28 +15,25 @@ else{
     count = parseInt(object[object.length - 1].id.slice(1)) + 1
 }
 
-$('.btn').bind('click', function () {
-    if (inputValue() !== '') {
-        object.push({ id:'l' + count, value:inputValue() })
-        console.log(object);
-        $('.input').val('')
-        $('*li').remove()
-        createLi(object)
-        count++
-        // let data = String(new Date().toLocaleString().slice(0,-3).split(','))
-        // console.log(data.split(','));
-
-    }
-});
+// $('.btn').bind('click', function () {
+//     if (inputValue() !== '') {
+//         object.push({ id:'l' + count, value:inputValue() })
+//         console.log(object);
+//         $('.input').val('')
+//         $('*li').remove()
+//         createLi(object)
+//         count++
+//     }
+// });
 
 
-function createLi(object) {
-    for (data of object) {
-        let elem = $('<li id='+data.id+'><span>' + data.value +'</span><button></button></li>')
-        $('.list').append(elem)
-    }
+// function createLi(object) {
+//     for (data of object) {
+//         let elem = $('<li id='+data.id+'><span>' + data.value +'</span><button></button></li>')
+//         $('.list').append(elem)
+//     }
 
-}
+// }
 
 $('ul').bind('click', function (e) {
     let elem = e.originalEvent.path[1]
@@ -59,6 +55,5 @@ function del(num) {
 function inputValue() {
     return ($('.input').val());
 }
-
 
 
