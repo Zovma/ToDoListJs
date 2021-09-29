@@ -19,58 +19,56 @@
 
 
         <script src="./index.js"></script>
+    </div>
 
-        <?php
-        if (isset($_POST["task"])) {
+    <?php
 
-            try {
-                $conn = new PDO("mysql:host=localhost:3305;dbname=todolist", "root", "27109Dbd");
-                $sql = "INSERT INTO list (task) VALUES (:task)";
-                // определяем prepared statement
-                $stmt = $conn->prepare($sql);
-                // привязываем параметры к значениям
-                $stmt->bindValue(":task", $_POST["task"]);
-                // выполняем prepared statement
-                $affectedRowsNumber = $stmt->execute();
-                
-            } catch (PDOException $e) {
-                echo "Database error: " . $e->getMessage();
+    
+
+
+    if (isset($_POST["task"])) {
+
+        try {
+            $conn = new PDO("mysql:host=localhost:3305;dbname=todolist", "root", "27109Dbd");
+            $sql = "INSERT INTO list (task) VALUES (:task)";
+            // определяем prepared statement
+            $stmt = $conn->prepare($sql);
+            // привязываем параметры к значениям
+            $stmt->bindValue(":task", $_POST["task"]);
+            // выполняем prepared statement
+            $affectedRowsNumber = $stmt->execute();
+        } catch (PDOException $e) {
+            echo "Database error: " . $e->getMessage();
+        }
+    }
+
+    $conn = new PDO("mysql:host=localhost:3305;dbname=todolist", "root", "27109Dbd");
+    $sql = "SELECT * FROM list";
+    $result = $conn->query($sql);
+    $task = [];
+    $idSql = [];
+    foreach ($result as $row) {
+        $task[] = $row['task'];
+        $idSql[] = $row['id'];
+    }
+
+    ?>
+
+    <script>
+        var task = <?php echo json_encode($task, JSON_HEX_TAG); ?>;
+        var idSql = <?php echo json_encode($idSql, JSON_HEX_TAG); ?>;
+        console.log(task);
+        console.log(idSql);
+
+        $(window).ready(createLi())
+
+        function createLi() {
+            for (let i = 0; i < task.length; i++) {
+
+                $('.list').append('<li>' + task[i] + '<form action="delete.php" method="post"> <input type = "hidden" name = "id" value = ' + idSql[i] + ' ><input type = "submit" value = "Удалить"></form></li>')
             }
         }
-
-        $conn = new PDO("mysql:host=localhost:3305;dbname=todolist", "root", "27109Dbd");
-        $sql = "SELECT * FROM list";
-        $result = $conn->query($sql);
-        $task = [];
-        foreach ($result as $row) {
-            $task[] = $row["task"];
-            
-        }
-
-        ?>
-
-        <script>
-            $('.btn').bind('click', function() {
-                if (inputValue() !== '') {
-                    $('.input').val('')
-                    console.log('btn click');
-                }
-            });
-
-
-            var inPhp = <?php echo json_encode($task, JSON_HEX_TAG); ?>; 
-            console.log(inPhp);
-            createLi()
-
-            $(window).ready(createLi())
-
-            function createLi(){
-                for(let i = 0; i < inPhp.length; i++){
-                    $('.list').append('<li>'+ inPhp[i] + '<button/></li>')
-                }
-            }
-        </script>
-
+    </script>
 
 </body>
 
