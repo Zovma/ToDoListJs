@@ -7,14 +7,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ToDoListJs</title>
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
-    <link rel="stylesheet" href="index.css" </head>
+    <link rel="stylesheet" type="text/css" href="./index.css">
+</head>
 
 <body>
     <div class='App'>
+        <div class="header">
+        <h1>TodoList</h1>
         <form method="POST">
-            <input class="input" type="text" name="task">
-            <input type="submit" value="Добавить">
+            <input class="input" type="text" name="task" maxlength="30">
+            <input type="submit" value="Добавить" id="btn1">
         </form>
+        </div>
         <ul class="list"></ul>
 
 
@@ -22,9 +26,6 @@
     </div>
 
     <?php
-
-    
-
 
     if (isset($_POST["task"])) {
 
@@ -55,17 +56,25 @@
     ?>
 
     <script>
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+
+        $('#btn1').on('click', function(event) {
+            if ($('.input').val()==='') {
+                event.preventDefault();
+            }
+        });
+
         var task = <?php echo json_encode($task, JSON_HEX_TAG); ?>;
         var idSql = <?php echo json_encode($idSql, JSON_HEX_TAG); ?>;
-        console.log(task);
-        console.log(idSql);
 
         $(window).ready(createLi())
 
         function createLi() {
             for (let i = 0; i < task.length; i++) {
 
-                $('.list').append('<li>' + task[i] + '<form action="delete.php" method="post"> <input type = "hidden" name = "id" value = ' + idSql[i] + ' ><input type = "submit" value = "Удалить"></form></li>')
+                $('.list').append('<li><span>' + task[i] + '</span><form action="delete.php" method="post"> <input type = "hidden" name = "id" value = ' + idSql[i] + ' ><input type = "submit" name="btn" value = "Удалить"></form></li>')
             }
         }
     </script>
