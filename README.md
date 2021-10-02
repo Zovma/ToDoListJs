@@ -1,2 +1,2 @@
 # ToDoListJs
-I am learning to create a sheet on jQuery, php, mySQL
+Simple to-do list on jQuery, php, mySQL
